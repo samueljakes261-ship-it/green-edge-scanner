@@ -5,39 +5,37 @@ import {
   Calculator,
   Copy,
   ExternalLink,
-  History,
   Filter,
-  Radio,
   Settings,
   ShieldCheck,
   Sparkles,
   TrendingUp,
   Trophy,
-  User,
-  Zap,
-  BookOpen,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
 });
 
+type Lang = "en" | "tr";
+
 type Leg = {
   bookmaker: string;
   bookmakerColor: string;
-  selection: string;
+  bookmakerUrl: string;
+  selection: { en: string; tr: string };
   odd: number;
 };
 
 type Arb = {
   id: string;
   roi: number;
-  sport: string;
+  sport: { en: string; tr: string };
   sportIcon: string;
   match: string;
-  league: string;
-  foundAgo: string;
-  market: string;
+  league: { en: string; tr: string };
+  foundSeconds: number;
+  market: { en: string; tr: string };
   legs: Leg[];
 };
 
@@ -45,76 +43,114 @@ const ARBS: Arb[] = [
   {
     id: "arb-1",
     roi: 5.42,
-    sport: "Football",
+    sport: { en: "Football", tr: "Futbol" },
     sportIcon: "⚽",
     match: "Manchester City vs Real Madrid",
-    league: "UEFA Champions League",
-    foundAgo: "12s ago",
-    market: "Match Winner 1X2",
+    league: { en: "UEFA Champions League", tr: "UEFA Şampiyonlar Ligi" },
+    foundSeconds: 12,
+    market: { en: "Match Winner 1X2", tr: "Maç Sonucu 1X2" },
     legs: [
-      { bookmaker: "Bet365", bookmakerColor: "#14805e", selection: "Real Madrid Win", odd: 2.10 },
-      { bookmaker: "William Hill", bookmakerColor: "#0b3d91", selection: "Draw or Man City", odd: 2.05 },
+      { bookmaker: "Bet365", bookmakerColor: "#14805e", bookmakerUrl: "https://www.bet365.com", selection: { en: "Real Madrid Win", tr: "Real Madrid Kazanır" }, odd: 2.10 },
+      { bookmaker: "William Hill", bookmakerColor: "#0b3d91", bookmakerUrl: "https://sports.williamhill.com", selection: { en: "Draw or Man City", tr: "Beraberlik veya Man City" }, odd: 2.05 },
     ],
   },
   {
     id: "arb-2",
     roi: 3.15,
-    sport: "Tennis",
+    sport: { en: "Tennis", tr: "Tenis" },
     sportIcon: "🎾",
     match: "Alcaraz vs Sinner",
-    league: "ATP Finals — Turin",
-    foundAgo: "38s ago",
-    market: "Match Winner",
+    league: { en: "ATP Finals — Turin", tr: "ATP Finalleri — Torino" },
+    foundSeconds: 38,
+    market: { en: "Match Winner", tr: "Maç Kazananı" },
     legs: [
-      { bookmaker: "Pinnacle", bookmakerColor: "#c8102e", selection: "Alcaraz", odd: 2.02 },
-      { bookmaker: "Betfair", bookmakerColor: "#ffb80c", selection: "Sinner", odd: 2.08 },
+      { bookmaker: "Pinnacle", bookmakerColor: "#c8102e", bookmakerUrl: "https://www.pinnacle.com", selection: { en: "Alcaraz", tr: "Alcaraz" }, odd: 2.02 },
+      { bookmaker: "Betfair", bookmakerColor: "#ffb80c", bookmakerUrl: "https://www.betfair.com", selection: { en: "Sinner", tr: "Sinner" }, odd: 2.08 },
     ],
   },
   {
     id: "arb-3",
     roi: 7.80,
-    sport: "Basketball",
+    sport: { en: "Basketball", tr: "Basketbol" },
     sportIcon: "🏀",
     match: "Lakers vs Celtics",
-    league: "NBA Regular Season",
-    foundAgo: "1m ago",
-    market: "Over/Under 219.5 Points",
+    league: { en: "NBA Regular Season", tr: "NBA Normal Sezon" },
+    foundSeconds: 60,
+    market: { en: "Over/Under 219.5 Points", tr: "Üst/Alt 219.5 Sayı" },
     legs: [
-      { bookmaker: "DraftKings", bookmakerColor: "#53d337", selection: "Over 219.5", odd: 2.15 },
-      { bookmaker: "FanDuel", bookmakerColor: "#1493ff", selection: "Under 219.5", odd: 2.12 },
+      { bookmaker: "DraftKings", bookmakerColor: "#53d337", bookmakerUrl: "https://sportsbook.draftkings.com", selection: { en: "Over 219.5", tr: "Üst 219.5" }, odd: 2.15 },
+      { bookmaker: "FanDuel", bookmakerColor: "#1493ff", bookmakerUrl: "https://sportsbook.fanduel.com", selection: { en: "Under 219.5", tr: "Alt 219.5" }, odd: 2.12 },
     ],
   },
   {
     id: "arb-4",
     roi: 2.68,
-    sport: "Football",
+    sport: { en: "Football", tr: "Futbol" },
     sportIcon: "⚽",
     match: "Arsenal vs Liverpool",
-    league: "Premier League",
-    foundAgo: "1m ago",
-    market: "Both Teams to Score",
+    league: { en: "Premier League", tr: "Premier Lig" },
+    foundSeconds: 75,
+    market: { en: "Both Teams to Score", tr: "Karşılıklı Gol" },
     legs: [
-      { bookmaker: "Unibet", bookmakerColor: "#147b45", selection: "BTTS — Yes", odd: 2.00 },
-      { bookmaker: "Betway", bookmakerColor: "#00a826", selection: "BTTS — No", odd: 2.10 },
+      { bookmaker: "Unibet", bookmakerColor: "#147b45", bookmakerUrl: "https://www.unibet.com", selection: { en: "BTTS — Yes", tr: "KG — Var" }, odd: 2.00 },
+      { bookmaker: "Betway", bookmakerColor: "#00a826", bookmakerUrl: "https://betway.com", selection: { en: "BTTS — No", tr: "KG — Yok" }, odd: 2.10 },
     ],
   },
   {
     id: "arb-5",
     roi: 4.11,
-    sport: "MMA",
+    sport: { en: "MMA", tr: "MMA" },
     sportIcon: "🥊",
     match: "Makhachev vs Volkanovski",
-    league: "UFC 312 — Main Event",
-    foundAgo: "2m ago",
-    market: "Fight Winner",
+    league: { en: "UFC 312 — Main Event", tr: "UFC 312 — Ana Karşılaşma" },
+    foundSeconds: 120,
+    market: { en: "Fight Winner", tr: "Maç Kazananı" },
     legs: [
-      { bookmaker: "Stake", bookmakerColor: "#4b6cf6", selection: "Makhachev", odd: 1.95 },
-      { bookmaker: "1xBet", bookmakerColor: "#1f7ac0", selection: "Volkanovski", odd: 2.20 },
+      { bookmaker: "Stake", bookmakerColor: "#4b6cf6", bookmakerUrl: "https://stake.com", selection: { en: "Makhachev", tr: "Makhachev" }, odd: 1.95 },
+      { bookmaker: "1xBet", bookmakerColor: "#1f7ac0", bookmakerUrl: "https://1xbet.com", selection: { en: "Volkanovski", tr: "Volkanovski" }, odd: 2.20 },
     ],
   },
 ];
 
+const T = {
+  scannerStatus: { en: "Scanner Status:", tr: "Tarayıcı Durumu:" },
+  active: { en: "Active", tr: "Aktif" },
+  delay: { en: "delay", tr: "gecikme" },
+  minRoi: { en: "Min ROI", tr: "Min ROI" },
+  sports: { en: "Sports", tr: "Sporlar" },
+  all: { en: "All", tr: "Tümü" },
+  bookies: { en: "12 Bookies", tr: "12 Bahisçi" },
+  selected: { en: "Selected", tr: "Seçili" },
+  proTier: { en: "PRO TIER", tr: "PRO ÜYELİK" },
+  liveFeed: { en: "Live Arbitrage Feed", tr: "Canlı Arbitraj Akışı" },
+  opportunities: { en: "opportunities · refreshed just now", tr: "fırsat · az önce yenilendi" },
+  live: { en: "LIVE", tr: "CANLI" },
+  roi: { en: "ROI", tr: "ROI" },
+  odd: { en: "Odd", tr: "Oran" },
+  bet: { en: "Bet", tr: "Bahis" },
+  stakeCalc: { en: "Stake Calculator", tr: "Bahis Hesaplayıcı" },
+  autoSynced: { en: "Auto-synced", tr: "Otomatik senkron" },
+  totalStake: { en: "Total Stake", tr: "Toplam Bahis" },
+  totalInvestment: { en: "Total Investment", tr: "Toplam Yatırım" },
+  guaranteedReturn: { en: "Guaranteed Return", tr: "Garantili Getiri" },
+  netProfit: { en: "Net Profit", tr: "Net Kâr" },
+  placeBets: { en: "Place Bets Sequentially →", tr: "Bahisleri Sırayla Yerleştir →" },
+  lockedNote: {
+    en: "Stakes locked to guarantee equal profit across outcomes",
+    tr: "Bahisler tüm sonuçlarda eşit kâr için kilitlenmiştir",
+  },
+  copyStake: { en: "Copy stake", tr: "Bahsi kopyala" },
+  secAgo: { en: "s ago", tr: "sn önce" },
+  minAgo: { en: "m ago", tr: "dk önce" },
+};
+
+function formatAgo(seconds: number, lang: Lang) {
+  if (seconds < 60) return `${seconds}${T.secAgo[lang]}`;
+  return `${Math.floor(seconds / 60)}${T.minAgo[lang]}`;
+}
+
 function Dashboard() {
+  const [lang, setLang] = useState<Lang>("en");
   const [activeId, setActiveId] = useState<string>(ARBS[0].id);
   const [stake, setStake] = useState<number>(100);
 
@@ -132,17 +168,17 @@ function Dashboard() {
   return (
     <div className="min-h-screen grid-bg">
       <div className="flex min-h-screen">
-        <Sidebar />
         <div className="flex-1 flex flex-col min-w-0">
-          <TopBar />
+          <TopBar lang={lang} setLang={setLang} />
           <main className="flex-1 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_420px] gap-5 p-5">
             <section className="min-w-0 space-y-4">
-              <FeedHeader />
+              <FeedHeader lang={lang} />
               <div className="space-y-3">
                 {ARBS.map((arb) => (
                   <ArbCard
                     key={arb.id}
                     arb={arb}
+                    lang={lang}
                     active={arb.id === activeId}
                     onSelect={() => setActiveId(arb.id)}
                   />
@@ -152,6 +188,7 @@ function Dashboard() {
             <aside className="xl:sticky xl:top-5 xl:self-start">
               <StakeCalculator
                 arb={active}
+                lang={lang}
                 stake={stake}
                 setStake={setStake}
                 stakes={calc.stakes}
@@ -166,89 +203,60 @@ function Dashboard() {
   );
 }
 
-function Sidebar() {
-  const nav = [
-    { icon: Radio, label: "Live Scanner", active: true },
-    { icon: History, label: "History" },
-    { icon: Calculator, label: "Calculator" },
-    { icon: BookOpen, label: "Betting Rules" },
-    { icon: Sparkles, label: "Premium" },
-    { icon: User, label: "Account" },
-  ];
+function LangToggle({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   return (
-    <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-border bg-panel/60 backdrop-blur">
-      <div className="p-5 border-b border-border flex items-center gap-2.5">
-        <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-primary to-accent grid place-items-center shadow-lg shadow-primary/30">
-          <Zap className="h-5 w-5 text-primary-foreground" />
-        </div>
-        <div className="leading-tight">
-          <div className="font-semibold tracking-tight">SureScan AI</div>
-          <div className="text-[11px] text-muted-foreground uppercase tracking-wider">Arbitrage Terminal</div>
-        </div>
-      </div>
-      <nav className="p-3 flex-1 space-y-1">
-        {nav.map(({ icon: Icon, label, active }) => (
-          <button
-            key={label}
-            className={
-              "w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all " +
-              (active
-                ? "bg-primary/15 text-foreground border border-primary/30 shadow-inner shadow-primary/10"
-                : "text-muted-foreground hover:text-foreground hover:bg-panel-elevated border border-transparent")
-            }
-          >
-            <Icon className="h-4 w-4" />
-            <span className="font-medium">{label}</span>
-            {active && (
-              <span className="ml-auto flex items-center gap-1.5 text-[10px] font-semibold text-profit">
-                <span className="h-1.5 w-1.5 rounded-full bg-profit animate-pulse-dot" />
-                LIVE
-              </span>
-            )}
-          </button>
-        ))}
-      </nav>
-      <div className="m-3 rounded-lg border border-primary/30 bg-gradient-to-br from-primary/15 to-accent/10 p-4">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <ShieldCheck className="h-3.5 w-3.5 text-profit" />
-          <span>Pro Tier · 12 books</span>
-        </div>
-        <div className="mt-1.5 text-sm font-semibold">Upgrade to Institutional</div>
-        <button className="mt-3 w-full text-xs font-semibold py-2 rounded-md bg-primary hover:bg-primary/90 text-primary-foreground transition">
-          View plans →
+    <div className="flex items-center rounded-md border border-border bg-panel overflow-hidden text-xs font-semibold">
+      {(["en", "tr"] as Lang[]).map((l) => (
+        <button
+          key={l}
+          onClick={() => setLang(l)}
+          className={
+            "px-2.5 py-1.5 transition " +
+            (lang === l
+              ? "bg-primary/20 text-foreground"
+              : "text-muted-foreground hover:text-foreground hover:bg-panel-elevated")
+          }
+          aria-pressed={lang === l}
+        >
+          {l.toUpperCase()}
         </button>
-      </div>
-    </aside>
+      ))}
+    </div>
   );
 }
 
-function TopBar() {
+function TopBar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   return (
     <header className="border-b border-border bg-panel/40 backdrop-blur sticky top-0 z-10">
       <div className="flex items-center gap-4 px-5 py-3">
         <div className="flex items-center gap-2.5">
+          <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-accent grid place-items-center shadow-lg shadow-primary/30 mr-1">
+            <Sparkles className="h-4 w-4 text-primary-foreground" />
+          </div>
+          <span className="font-semibold tracking-tight mr-3">SureScan AI</span>
           <span className="relative flex h-2.5 w-2.5">
             <span className="absolute inline-flex h-full w-full rounded-full bg-profit opacity-60 animate-ping" />
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-profit" />
           </span>
           <div className="text-sm">
-            <span className="text-muted-foreground">Scanner Status:</span>{" "}
-            <span className="font-semibold text-profit">Active</span>
+            <span className="text-muted-foreground">{T.scannerStatus[lang]}</span>{" "}
+            <span className="font-semibold text-profit">{T.active[lang]}</span>
             <span className="text-muted-foreground"> · </span>
-            <span className="font-mono text-foreground">0.4s delay</span>
+            <span className="font-mono text-foreground">0.4s {T.delay[lang]}</span>
           </div>
         </div>
 
         <div className="hidden md:flex items-center gap-2 ml-2">
-          <FilterChip icon={<TrendingUp className="h-3.5 w-3.5" />} label="Min ROI" value="2.5%" />
-          <FilterChip icon={<Trophy className="h-3.5 w-3.5" />} label="Sports" value="All" />
-          <FilterChip icon={<Filter className="h-3.5 w-3.5" />} label="12 Bookies" value="Selected" />
+          <FilterChip icon={<TrendingUp className="h-3.5 w-3.5" />} label={T.minRoi[lang]} value="2.5%" />
+          <FilterChip icon={<Trophy className="h-3.5 w-3.5" />} label={T.sports[lang]} value={T.all[lang]} />
+          <FilterChip icon={<Filter className="h-3.5 w-3.5" />} label={T.bookies[lang]} value={T.selected[lang]} />
         </div>
 
         <div className="ml-auto flex items-center gap-3">
+          <LangToggle lang={lang} setLang={setLang} />
           <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/10 border border-primary/30">
             <Sparkles className="h-3.5 w-3.5 text-accent" />
-            <span className="text-xs font-semibold">PRO TIER</span>
+            <span className="text-xs font-semibold">{T.proTier[lang]}</span>
           </div>
           <button className="p-2 rounded-md hover:bg-panel-elevated text-muted-foreground hover:text-foreground transition">
             <Settings className="h-4 w-4" />
@@ -275,27 +283,27 @@ function FilterChip({ icon, label, value }: { icon: React.ReactNode; label: stri
   );
 }
 
-function FeedHeader() {
+function FeedHeader({ lang }: { lang: Lang }) {
   return (
     <div className="flex items-center justify-between">
       <div>
         <h1 className="text-xl font-semibold tracking-tight flex items-center gap-2">
           <Activity className="h-5 w-5 text-profit" />
-          Live Arbitrage Feed
+          {T.liveFeed[lang]}
         </h1>
         <p className="text-xs text-muted-foreground mt-0.5 font-mono">
-          {ARBS.length} opportunities · refreshed just now
+          {ARBS.length} {T.opportunities[lang]}
         </p>
       </div>
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <span className="h-1.5 w-1.5 rounded-full bg-profit animate-pulse-dot" />
-        <span className="font-semibold text-profit">LIVE</span>
+        <span className="font-semibold text-profit">{T.live[lang]}</span>
       </div>
     </div>
   );
 }
 
-function ArbCard({ arb, active, onSelect }: { arb: Arb; active: boolean; onSelect: () => void }) {
+function ArbCard({ arb, lang, active, onSelect }: { arb: Arb; lang: Lang; active: boolean; onSelect: () => void }) {
   return (
     <button
       onClick={onSelect}
@@ -309,7 +317,7 @@ function ArbCard({ arb, active, onSelect }: { arb: Arb; active: boolean; onSelec
       <div className="p-4 flex items-start gap-4">
         <div className="shrink-0">
           <div className="rounded-lg bg-profit/15 border border-profit/40 px-3 py-2.5 text-center min-w-[92px]">
-            <div className="text-[10px] font-semibold uppercase tracking-wider text-profit/80">ROI</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-profit/80">{T.roi[lang]}</div>
             <div className="text-2xl font-bold text-profit tabular-nums leading-none mt-0.5">
               {arb.roi.toFixed(2)}%
             </div>
@@ -319,13 +327,13 @@ function ArbCard({ arb, active, onSelect }: { arb: Arb; active: boolean; onSelec
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span className="text-base leading-none">{arb.sportIcon}</span>
-            <span className="font-medium">{arb.league}</span>
+            <span className="font-medium">{arb.league[lang]}</span>
             <span>·</span>
-            <span className="font-mono">{arb.foundAgo}</span>
+            <span className="font-mono">{formatAgo(arb.foundSeconds, lang)}</span>
           </div>
           <div className="mt-1 font-semibold tracking-tight truncate">{arb.match}</div>
           <div className="mt-1 inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-muted-foreground bg-panel-elevated px-2 py-0.5 rounded border border-border">
-            {arb.market}
+            {arb.market[lang]}
           </div>
 
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -344,19 +352,21 @@ function ArbCard({ arb, active, onSelect }: { arb: Arb; active: boolean; onSelec
                   <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                     {leg.bookmaker}
                   </div>
-                  <div className="text-sm truncate">{leg.selection}</div>
+                  <div className="text-sm truncate">{leg.selection[lang]}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Odd</div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{T.odd[lang]}</div>
                   <div className="font-mono font-bold tabular-nums">{leg.odd.toFixed(2)}</div>
                 </div>
                 <a
-                  href="#"
+                  href={leg.bookmakerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
                   className="ml-1 inline-flex items-center gap-1 rounded-md bg-accent/15 border border-accent/40 hover:bg-accent hover:text-accent-foreground px-2.5 py-1.5 text-[11px] font-semibold text-accent transition-colors"
-                  aria-label={`Bet at ${leg.bookmaker}`}
+                  aria-label={`${T.bet[lang]} — ${leg.bookmaker}`}
                 >
-                  Bet <ExternalLink className="h-3 w-3" />
+                  {T.bet[lang]} <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
             ))}
@@ -369,6 +379,7 @@ function ArbCard({ arb, active, onSelect }: { arb: Arb; active: boolean; onSelec
 
 function StakeCalculator({
   arb,
+  lang,
   stake,
   setStake,
   stakes,
@@ -376,6 +387,7 @@ function StakeCalculator({
   profit,
 }: {
   arb: Arb;
+  lang: Lang;
   stake: number;
   setStake: (n: number) => void;
   stakes: number[];
@@ -387,10 +399,10 @@ function StakeCalculator({
       <div className="px-4 py-3 border-b border-border flex items-center justify-between bg-panel-elevated/50">
         <div className="flex items-center gap-2">
           <Calculator className="h-4 w-4 text-accent" />
-          <h2 className="font-semibold text-sm tracking-tight">Stake Calculator</h2>
+          <h2 className="font-semibold text-sm tracking-tight">{T.stakeCalc[lang]}</h2>
         </div>
         <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
-          Auto-synced
+          {T.autoSynced[lang]}
         </span>
       </div>
 
@@ -402,7 +414,7 @@ function StakeCalculator({
 
         <div>
           <label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Total Stake
+            {T.totalStake[lang]}
           </label>
           <div className="mt-1.5 relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg text-muted-foreground">
@@ -443,8 +455,9 @@ function StakeCalculator({
                   />
                 </div>
                 <button
+                  onClick={() => navigator.clipboard?.writeText(stakes[i].toFixed(2))}
                   className="px-2.5 rounded-md border border-border bg-panel hover:bg-panel-elevated text-muted-foreground hover:text-foreground transition"
-                  aria-label="Copy stake"
+                  aria-label={T.copyStake[lang]}
                 >
                   <Copy className="h-3.5 w-3.5" />
                 </button>
@@ -454,12 +467,12 @@ function StakeCalculator({
         </div>
 
         <div className="rounded-lg border border-profit/40 bg-gradient-to-br from-profit/10 to-transparent p-3 space-y-1.5">
-          <SummaryRow label="Total Investment" value={`€${stake.toFixed(2)}`} />
-          <SummaryRow label="Guaranteed Return" value={`€${guaranteedReturn.toFixed(2)}`} />
+          <SummaryRow label={T.totalInvestment[lang]} value={`€${stake.toFixed(2)}`} />
+          <SummaryRow label={T.guaranteedReturn[lang]} value={`€${guaranteedReturn.toFixed(2)}`} />
           <div className="h-px bg-border my-1.5" />
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Net Profit
+              {T.netProfit[lang]}
             </span>
             <span className="text-xl font-bold tabular-nums text-profit">
               +€{profit.toFixed(2)}
@@ -468,12 +481,12 @@ function StakeCalculator({
         </div>
 
         <button className="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-95 font-semibold text-sm shadow-lg shadow-primary/30 transition">
-          Place Bets Sequentially →
+          {T.placeBets[lang]}
         </button>
 
         <div className="flex items-center justify-center gap-1.5 text-[10px] text-muted-foreground">
           <ShieldCheck className="h-3 w-3 text-profit" />
-          <span>Stakes locked to guarantee equal profit across outcomes</span>
+          <span>{T.lockedNote[lang]}</span>
         </div>
       </div>
     </div>
